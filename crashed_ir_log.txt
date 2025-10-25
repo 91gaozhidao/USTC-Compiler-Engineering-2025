@@ -1,0 +1,1035 @@
+========================================================================
+!!!!!! CLANG 在编译 ./tests/2-ir-gen/autogen/testcases/lv3/complex1.ll 时崩溃了 !!!!!!
+!!!!!! 以下是导致崩溃的 LLVM IR 内容 (带行号)：!!!!!!
+------------------------------------------------------------------------
+     1	; ModuleID = 'cminus'
+     2	source_filename = "/home/ethangao/workspace/USTC-Compiler-Engineering-2025/tests/2-ir-gen/autogen/testcases/lv3/complex1.cminus"
+     3	
+     4	declare i32 @input()
+     5	
+     6	declare void @output(i32)
+     7	
+     8	declare void @outputFloat(float)
+     9	
+    10	declare void @neg_idx_except()
+    11	
+    12	define i32 @mod(i32 %a, i32 %b) {
+    13	label_entry:
+    14	  %op0 = alloca i32
+    15	  store i32 %a, i32* %op0
+    16	  %op1 = alloca i32
+    17	  store i32 %b, i32* %op1
+    18	  %op2 = load i32, i32* %op0
+    19	  %op3 = load i32, i32* %op0
+    20	  %op4 = load i32, i32* %op1
+    21	  %op5 = sdiv i32 %op3, %op4
+    22	  %op6 = load i32, i32* %op1
+    23	  %op7 = mul i32 %op5, %op6
+    24	  %op8 = sub i32 %op2, %op7
+    25	  ret i32 %op8
+    26	}
+    27	define void @printfour(i32 %input) {
+    28	label_entry:
+    29	  %op0 = alloca i32
+    30	  store i32 %input, i32* %op0
+    31	  %op1 = alloca i32
+    32	  %op2 = alloca i32
+    33	  %op3 = alloca i32
+    34	  %op4 = alloca i32
+    35	  %op5 = load i32, i32* %op0
+    36	  %op6 = call i32 @mod(i32 %op5, i32 10000)
+    37	  store i32 %op6, i32* %op0
+    38	  %op7 = load i32, i32* %op0
+    39	  %op8 = call i32 @mod(i32 %op7, i32 10)
+    40	  store i32 %op8, i32* %op4
+    41	  %op9 = load i32, i32* %op0
+    42	  %op10 = sdiv i32 %op9, 10
+    43	  store i32 %op10, i32* %op0
+    44	  %op11 = load i32, i32* %op0
+    45	  %op12 = call i32 @mod(i32 %op11, i32 10)
+    46	  store i32 %op12, i32* %op3
+    47	  %op13 = load i32, i32* %op0
+    48	  %op14 = sdiv i32 %op13, 10
+    49	  store i32 %op14, i32* %op0
+    50	  %op15 = load i32, i32* %op0
+    51	  %op16 = call i32 @mod(i32 %op15, i32 10)
+    52	  store i32 %op16, i32* %op2
+    53	  %op17 = load i32, i32* %op0
+    54	  %op18 = sdiv i32 %op17, 10
+    55	  store i32 %op18, i32* %op0
+    56	  %op19 = load i32, i32* %op0
+    57	  store i32 %op19, i32* %op1
+    58	  %op20 = load i32, i32* %op1
+    59	  call void @output(i32 %op20)
+    60	  %op21 = load i32, i32* %op2
+    61	  call void @output(i32 %op21)
+    62	  %op22 = load i32, i32* %op3
+    63	  call void @output(i32 %op22)
+    64	  %op23 = load i32, i32* %op4
+    65	  call void @output(i32 %op23)
+    66	  ret void
+    67	}
+    68	define void @main() {
+    69	label_entry:
+    70	  %op0 = alloca [2801 x i32]
+    71	  %op1 = alloca i32
+    72	  %op2 = alloca i32
+    73	  %op3 = alloca i32
+    74	  %op4 = alloca i32
+    75	  %op5 = alloca i32
+    76	  store i32 0, i32* %op5
+    77	  store i32 1234, i32* %op4
+    78	  %op6 = alloca i32
+    79	  store i32 0, i32* %op6
+    80	  br label %label_while_cond
+    81	label_while_cond:                                                ; preds = %label_entry, %label13
+    82	  %op7 = load i32, i32* %op6
+    83	  %op8 = icmp slt i32 %op7, 2800
+    84	  %op9 = zext i1 %op8 to i32
+    85	  %op10 = icmp ne i32 %op9, 0
+    86	  br i1 %op10, label %label_while_loop, label %label_while_after
+    87	label_while_loop:                                                ; preds = %label_while_cond
+    88	  %op11 = load i32, i32* %op6
+    89	  %op12 = icmp sge i32 %op11, 0
+    90	  br i1 %op12, label %label13, label %label17
+    91	label_while_after:                                                ; preds = %label_while_cond
+    92	  store i32 2800, i32* %op2
+    93	  br label %label_while_cond
+    94	label13:                                                ; preds = %label_while_loop, %label17
+    95	  %op14 = getelementptr [2801 x i32], [2801 x i32]* %op0, i32 0, i32 %op11
+    96	  store i32 2000, i32* %op14
+    97	  %op15 = load i32, i32* %op6
+    98	  %op16 = add i32 %op15, 1
+    99	  store i32 %op16, i32* %op6
+   100	  br label %label_while_cond
+   101	label17:                                                ; preds = %label_while_loop
+   102	  call void @neg_idx_except()
+   103	  br label %label13
+   104	label_while_cond:                                                ; preds = %label_while_after, %label_while_after
+   105	  %op18 = load i32, i32* %op2
+   106	  %op19 = icmp ne i32 %op18, 0
+   107	  br i1 %op19, label %label_while_loop, label %label_while_after
+   108	label_while_loop:                                                ; preds = %label_while_cond
+   109	  %op20 = alloca i32
+   110	  store i32 0, i32* %op20
+   111	  %op21 = load i32, i32* %op2
+   112	  store i32 %op21, i32* %op1
+   113	  br label %label_while_cond
+   114	label_while_after:                                                ; preds = %label_while_cond
+   115	  ret void
+   116	label_while_cond:                                                ; preds = %label_while_loop, %label_contBB
+   117	  %op22 = load i32, i32* %op1
+   118	  %op23 = icmp ne i32 %op22, 0
+   119	  %op24 = zext i1 %op23 to i32
+   120	  %op25 = icmp ne i32 %op24, 0
+   121	  br i1 %op25, label %label_while_loop, label %label_while_after
+   122	label_while_loop:                                                ; preds = %label_while_cond
+   123	  %op26 = load i32, i32* %op20
+   124	  %op27 = load i32, i32* %op1
+   125	  %op28 = icmp sge i32 %op27, 0
+   126	  br i1 %op28, label %label37, label %label50
+   127	label_while_after:                                                ; preds = %label_while_cond
+   128	  %op29 = load i32, i32* %op5
+   129	  %op30 = load i32, i32* %op20
+   130	  %op31 = sdiv i32 %op30, 10000
+   131	  %op32 = add i32 %op29, %op31
+   132	  call void @printfour(i32 %op32)
+   133	  %op33 = load i32, i32* %op20
+   134	  %op34 = call i32 @mod(i32 %op33, i32 10000)
+   135	  store i32 %op34, i32* %op5
+   136	  %op35 = load i32, i32* %op2
+   137	  %op36 = sub i32 %op35, 14
+   138	  store i32 %op36, i32* %op2
+   139	  br label %label_while_cond
+   140	label37:                                                ; preds = %label_while_loop, %label50
+   141	  %op38 = getelementptr [2801 x i32], [2801 x i32]* %op0, i32 0, i32 %op27
+   142	  %op39 = load i32, i32* %op38
+   143	  %op40 = mul i32 %op39, 10000
+   144	  %op41 = add i32 %op26, %op40
+   145	  store i32 %op41, i32* %op20
+   146	  %op42 = load i32, i32* %op1
+   147	  %op43 = mul i32 2, %op42
+   148	  %op44 = sub i32 %op43, 1
+   149	  store i32 %op44, i32* %op3
+   150	  %op45 = load i32, i32* %op20
+   151	  %op46 = load i32, i32* %op3
+   152	  %op47 = call i32 @mod(i32 %op45, i32 %op46)
+   153	  %op48 = load i32, i32* %op1
+   154	  %op49 = icmp sge i32 %op48, 0
+   155	  br i1 %op49, label %label51, label %label62
+   156	label50:                                                ; preds = %label_while_loop
+   157	  call void @neg_idx_except()
+   158	  br label %label37
+   159	label51:                                                ; preds = %label37, %label62
+   160	  %op52 = getelementptr [2801 x i32], [2801 x i32]* %op0, i32 0, i32 %op48
+   161	  store i32 %op47, i32* %op52
+   162	  %op53 = load i32, i32* %op20
+   163	  %op54 = load i32, i32* %op3
+   164	  %op55 = sdiv i32 %op53, %op54
+   165	  store i32 %op55, i32* %op20
+   166	  %op56 = load i32, i32* %op1
+   167	  %op57 = sub i32 %op56, 1
+   168	  store i32 %op57, i32* %op1
+   169	  %op58 = load i32, i32* %op1
+   170	  %op59 = icmp ne i32 %op58, 0
+   171	  %op60 = zext i1 %op59 to i32
+   172	  %op61 = icmp ne i32 %op60, 0
+   173	  br i1 %op61, label %label_trueBB, label %label_contBB
+   174	label62:                                                ; preds = %label37
+   175	  call void @neg_idx_except()
+   176	  br label %label51
+   177	label_trueBB:                                                ; preds = %label51
+   178	  %op63 = load i32, i32* %op20
+   179	  %op64 = load i32, i32* %op1
+   180	  %op65 = mul i32 %op63, %op64
+   181	  store i32 %op65, i32* %op20
+   182	  br label %label_contBB
+   183	label_contBB:                                                ; preds = %label51, %label_trueBB
+   184	  br label %label_while_cond
+   185	}
+------------------------------------------------------------------------
+
+
+========================================================================
+!!!!!! CLANG 在编译 ./tests/2-ir-gen/autogen/testcases/lv3/complex2.ll 时崩溃了 !!!!!!
+!!!!!! 以下是导致崩溃的 LLVM IR 内容 (带行号)：!!!!!!
+------------------------------------------------------------------------
+     1	; ModuleID = 'cminus'
+     2	source_filename = "/home/ethangao/workspace/USTC-Compiler-Engineering-2025/tests/2-ir-gen/autogen/testcases/lv3/complex2.cminus"
+     3	
+     4	@x = global [10 x float] zeroinitializer
+     5	declare i32 @input()
+     6	
+     7	declare void @output(i32)
+     8	
+     9	declare void @outputFloat(float)
+    10	
+    11	declare void @neg_idx_except()
+    12	
+    13	define i32 @minloc(float* %a, float %low, i32 %high) {
+    14	label_entry:
+    15	  %op0 = alloca float*
+    16	  store float* %a, float** %op0
+    17	  %op1 = alloca float
+    18	  store float %low, float* %op1
+    19	  %op2 = alloca i32
+    20	  store i32 %high, i32* %op2
+    21	  %op3 = alloca i32
+    22	  %op4 = alloca i32
+    23	  %op5 = alloca i32
+    24	  %op6 = load float, float* %op1
+    25	  %op7 = fptosi float %op6 to i32
+    26	  store i32 %op7, i32* %op5
+    27	  %op8 = load float, float* %op1
+    28	  %op9 = fptosi float %op8 to i32
+    29	  %op10 = icmp sge i32 %op9, 0
+    30	  br i1 %op10, label %label11, label %label20
+    31	label11:                                                ; preds = %label_entry, %label20
+    32	  %op12 = load float*, float** %op0
+    33	  %op13 = getelementptr float, float* %op12, i32 %op9
+    34	  %op14 = load float, float* %op13
+    35	  %op15 = fptosi float %op14 to i32
+    36	  store i32 %op15, i32* %op4
+    37	  %op16 = load float, float* %op1
+    38	  %op17 = sitofp i32 1 to float
+    39	  %op18 = fadd float %op16, %op17
+    40	  %op19 = fptosi float %op18 to i32
+    41	  store i32 %op19, i32* %op3
+    42	  br label %label_while_cond
+    43	label20:                                                ; preds = %label_entry
+    44	  call void @neg_idx_except()
+    45	  br label %label11
+    46	label_while_cond:                                                ; preds = %label11, %label_contBB
+    47	  %op21 = load i32, i32* %op3
+    48	  %op22 = load i32, i32* %op2
+    49	  %op23 = icmp slt i32 %op21, %op22
+    50	  %op24 = zext i1 %op23 to i32
+    51	  %op25 = icmp ne i32 %op24, 0
+    52	  br i1 %op25, label %label_while_loop, label %label_while_after
+    53	label_while_loop:                                                ; preds = %label_while_cond
+    54	  %op26 = load i32, i32* %op3
+    55	  %op27 = icmp sge i32 %op26, 0
+    56	  br i1 %op27, label %label29, label %label38
+    57	label_while_after:                                                ; preds = %label_while_cond
+    58	  %op28 = load i32, i32* %op5
+    59	  ret i32 %op28
+    60	label29:                                                ; preds = %label_while_loop, %label38
+    61	  %op30 = load float*, float** %op0
+    62	  %op31 = getelementptr float, float* %op30, i32 %op26
+    63	  %op32 = load float, float* %op31
+    64	  %op33 = load i32, i32* %op4
+    65	  %op34 = sitofp i32 %op33 to float
+    66	  %op35 = fcmp ult float %op32, %op34
+    67	  %op36 = zext i1 %op35 to i32
+    68	  %op37 = icmp ne i32 %op36, 0
+    69	  br i1 %op37, label %label_trueBB, label %label_contBB
+    70	label38:                                                ; preds = %label_while_loop
+    71	  call void @neg_idx_except()
+    72	  br label %label29
+    73	label_trueBB:                                                ; preds = %label29
+    74	  %op39 = load i32, i32* %op3
+    75	  %op40 = icmp sge i32 %op39, 0
+    76	  br i1 %op40, label %label43, label %label49
+    77	label_contBB:                                                ; preds = %label29, %label43
+    78	  %op41 = load i32, i32* %op3
+    79	  %op42 = add i32 %op41, 1
+    80	  store i32 %op42, i32* %op3
+    81	  br label %label_while_cond
+    82	label43:                                                ; preds = %label_trueBB, %label49
+    83	  %op44 = load float*, float** %op0
+    84	  %op45 = getelementptr float, float* %op44, i32 %op39
+    85	  %op46 = load float, float* %op45
+    86	  %op47 = fptosi float %op46 to i32
+    87	  store i32 %op47, i32* %op4
+    88	  %op48 = load i32, i32* %op3
+    89	  store i32 %op48, i32* %op5
+    90	  br label %label_contBB
+    91	label49:                                                ; preds = %label_trueBB
+    92	  call void @neg_idx_except()
+    93	  br label %label43
+    94	}
+    95	define void @sort(float* %a, i32 %low, float %high) {
+    96	label_entry:
+    97	  %op0 = alloca float*
+    98	  store float* %a, float** %op0
+    99	  %op1 = alloca i32
+   100	  store i32 %low, i32* %op1
+   101	  %op2 = alloca float
+   102	  store float %high, float* %op2
+   103	  %op3 = alloca i32
+   104	  %op4 = alloca i32
+   105	  %op5 = load i32, i32* %op1
+   106	  store i32 %op5, i32* %op3
+   107	  br label %label_while_cond
+   108	label_while_cond:                                                ; preds = %label_entry, %label45
+   109	  %op6 = load i32, i32* %op3
+   110	  %op7 = load float, float* %op2
+   111	  %op8 = sitofp i32 1 to float
+   112	  %op9 = fsub float %op7, %op8
+   113	  %op10 = sitofp i32 %op6 to float
+   114	  %op11 = fcmp ult float %op10, %op9
+   115	  %op12 = zext i1 %op11 to i32
+   116	  %op13 = icmp ne i32 %op12, 0
+   117	  br i1 %op13, label %label_while_loop, label %label_while_after
+   118	label_while_loop:                                                ; preds = %label_while_cond
+   119	  %op14 = alloca i32
+   120	  %op15 = load float*, float** %op0
+   121	  %op16 = load i32, i32* %op3
+   122	  %op17 = sitofp i32 %op16 to float
+   123	  %op18 = load float, float* %op2
+   124	  %op19 = fptosi float %op18 to i32
+   125	  %op20 = call i32 @minloc(float* %op15, float %op17, i32 %op19)
+   126	  store i32 %op20, i32* %op4
+   127	  %op21 = load i32, i32* %op4
+   128	  %op22 = icmp sge i32 %op21, 0
+   129	  br i1 %op22, label %label23, label %label30
+   130	label_while_after:                                                ; preds = %label_while_cond
+   131	  ret void
+   132	label23:                                                ; preds = %label_while_loop, %label30
+   133	  %op24 = load float*, float** %op0
+   134	  %op25 = getelementptr float, float* %op24, i32 %op21
+   135	  %op26 = load float, float* %op25
+   136	  %op27 = fptosi float %op26 to i32
+   137	  store i32 %op27, i32* %op14
+   138	  %op28 = load i32, i32* %op3
+   139	  %op29 = icmp sge i32 %op28, 0
+   140	  br i1 %op29, label %label31, label %label37
+   141	label30:                                                ; preds = %label_while_loop
+   142	  call void @neg_idx_except()
+   143	  br label %label23
+   144	label31:                                                ; preds = %label23, %label37
+   145	  %op32 = load float*, float** %op0
+   146	  %op33 = getelementptr float, float* %op32, i32 %op28
+   147	  %op34 = load float, float* %op33
+   148	  %op35 = load i32, i32* %op4
+   149	  %op36 = icmp sge i32 %op35, 0
+   150	  br i1 %op36, label %label38, label %label44
+   151	label37:                                                ; preds = %label23
+   152	  call void @neg_idx_except()
+   153	  br label %label31
+   154	label38:                                                ; preds = %label31, %label44
+   155	  %op39 = load float*, float** %op0
+   156	  %op40 = getelementptr float, float* %op39, i32 %op35
+   157	  store float %op34, float* %op40
+   158	  %op41 = load i32, i32* %op14
+   159	  %op42 = load i32, i32* %op3
+   160	  %op43 = icmp sge i32 %op42, 0
+   161	  br i1 %op43, label %label45, label %label51
+   162	label44:                                                ; preds = %label31
+   163	  call void @neg_idx_except()
+   164	  br label %label38
+   165	label45:                                                ; preds = %label38, %label51
+   166	  %op46 = load float*, float** %op0
+   167	  %op47 = getelementptr float, float* %op46, i32 %op42
+   168	  %op48 = sitofp i32 %op41 to float
+   169	  store float %op48, float* %op47
+   170	  %op49 = load i32, i32* %op3
+   171	  %op50 = add i32 %op49, 1
+   172	  store i32 %op50, i32* %op3
+   173	  br label %label_while_cond
+   174	label51:                                                ; preds = %label38
+   175	  call void @neg_idx_except()
+   176	  br label %label45
+   177	}
+   178	define void @main() {
+   179	label_entry:
+   180	  %op0 = alloca i32
+   181	  store i32 0, i32* %op0
+   182	  br label %label_while_cond
+   183	label_while_cond:                                                ; preds = %label_entry, %label10
+   184	  %op1 = load i32, i32* %op0
+   185	  %op2 = icmp slt i32 %op1, 10
+   186	  %op3 = zext i1 %op2 to i32
+   187	  %op4 = icmp ne i32 %op3, 0
+   188	  br i1 %op4, label %label_while_loop, label %label_while_after
+   189	label_while_loop:                                                ; preds = %label_while_cond
+   190	  %op5 = call i32 @input()
+   191	  %op6 = load i32, i32* %op0
+   192	  %op7 = icmp sge i32 %op6, 0
+   193	  br i1 %op7, label %label10, label %label15
+   194	label_while_after:                                                ; preds = %label_while_cond
+   195	  %op8 = getelementptr [10 x float], [10 x float]* @x, i32 0, i32 0
+   196	  %op9 = sitofp i32 10 to float
+   197	  call void @sort(float* %op8, i32 0, float %op9)
+   198	  store i32 0, i32* %op0
+   199	  br label %label_while_cond
+   200	label10:                                                ; preds = %label_while_loop, %label15
+   201	  %op11 = getelementptr [10 x float], [10 x float]* @x, i32 0, i32 %op6
+   202	  %op12 = sitofp i32 %op5 to float
+   203	  store float %op12, float* %op11
+   204	  %op13 = load i32, i32* %op0
+   205	  %op14 = add i32 %op13, 1
+   206	  store i32 %op14, i32* %op0
+   207	  br label %label_while_cond
+   208	label15:                                                ; preds = %label_while_loop
+   209	  call void @neg_idx_except()
+   210	  br label %label10
+   211	label_while_cond:                                                ; preds = %label_while_after, %label22
+   212	  %op16 = load i32, i32* %op0
+   213	  %op17 = icmp slt i32 %op16, 10
+   214	  %op18 = zext i1 %op17 to i32
+   215	  %op19 = icmp ne i32 %op18, 0
+   216	  br i1 %op19, label %label_while_loop, label %label_while_after
+   217	label_while_loop:                                                ; preds = %label_while_cond
+   218	  %op20 = load i32, i32* %op0
+   219	  %op21 = icmp sge i32 %op20, 0
+   220	  br i1 %op21, label %label22, label %label28
+   221	label_while_after:                                                ; preds = %label_while_cond
+   222	  ret void
+   223	label22:                                                ; preds = %label_while_loop, %label28
+   224	  %op23 = getelementptr [10 x float], [10 x float]* @x, i32 0, i32 %op20
+   225	  %op24 = load float, float* %op23
+   226	  %op25 = fptosi float %op24 to i32
+   227	  call void @output(i32 %op25)
+   228	  %op26 = load i32, i32* %op0
+   229	  %op27 = add i32 %op26, 1
+   230	  store i32 %op27, i32* %op0
+   231	  br label %label_while_cond
+   232	label28:                                                ; preds = %label_while_loop
+   233	  call void @neg_idx_except()
+   234	  br label %label22
+   235	}
+------------------------------------------------------------------------
+
+
+========================================================================
+!!!!!! CLANG 在编译 ./tests/2-ir-gen/autogen/testcases/lv3/complex4.ll 时崩溃了 !!!!!!
+!!!!!! 以下是导致崩溃的 LLVM IR 内容 (带行号)：!!!!!!
+------------------------------------------------------------------------
+     1	; ModuleID = 'cminus'
+     2	source_filename = "/home/ethangao/workspace/USTC-Compiler-Engineering-2025/tests/2-ir-gen/autogen/testcases/lv3/complex4.cminus"
+     3	
+     4	declare i32 @input()
+     5	
+     6	declare void @output(i32)
+     7	
+     8	declare void @outputFloat(float)
+     9	
+    10	declare void @neg_idx_except()
+    11	
+    12	define float @get(float* %a, i32 %x, i32 %y, i32 %row) {
+    13	label_entry:
+    14	  %op0 = alloca float*
+    15	  store float* %a, float** %op0
+    16	  %op1 = alloca i32
+    17	  store i32 %x, i32* %op1
+    18	  %op2 = alloca i32
+    19	  store i32 %y, i32* %op2
+    20	  %op3 = alloca i32
+    21	  store i32 %row, i32* %op3
+    22	  %op4 = load i32, i32* %op1
+    23	  %op5 = load i32, i32* %op3
+    24	  %op6 = mul i32 %op4, %op5
+    25	  %op7 = load i32, i32* %op2
+    26	  %op8 = add i32 %op6, %op7
+    27	  %op9 = icmp sge i32 %op8, 0
+    28	  br i1 %op9, label %label10, label %label14
+    29	label10:                                                ; preds = %label_entry, %label14
+    30	  %op11 = load float*, float** %op0
+    31	  %op12 = getelementptr float, float* %op11, i32 %op8
+    32	  %op13 = load float, float* %op12
+    33	  ret float %op13
+    34	label14:                                                ; preds = %label_entry
+    35	  call void @neg_idx_except()
+    36	  br label %label10
+    37	}
+    38	define float @abs(float %x) {
+    39	label_entry:
+    40	  %op0 = alloca float
+    41	  store float %x, float* %op0
+    42	  %op1 = load float, float* %op0
+    43	  %op2 = sitofp i32 0 to float
+    44	  %op3 = fcmp ugt float %op1, %op2
+    45	  %op4 = zext i1 %op3 to i32
+    46	  %op5 = icmp ne i32 %op4, 0
+    47	  br i1 %op5, label %label_trueBB, label %label_falseBB
+    48	label_trueBB:                                                ; preds = %label_entry
+    49	  %op6 = load float, float* %op0
+    50	  ret float %op6
+    51	label_falseBB:                                                ; preds = %label_entry
+    52	  %op7 = load float, float* %op0
+    53	  %op8 = sitofp i32 0 to float
+    54	  %op9 = fsub float %op8, %op7
+    55	  ret float %op9
+    56	}
+    57	define float @isZero(float %t) {
+    58	label_entry:
+    59	  %op0 = alloca float
+    60	  store float %t, float* %op0
+    61	  %op1 = load float, float* %op0
+    62	  %op2 = call float @abs(float %op1)
+    63	  %op3 = fcmp ult float %op2, 0x3eb0c6f7a0000000
+    64	  %op4 = zext i1 %op3 to i32
+    65	  %op5 = sitofp i32 %op4 to float
+    66	  ret float %op5
+    67	}
+    68	define i32 @gauss(float* %vars, float* %equ, i32 %var) {
+    69	label_entry:
+    70	  %op0 = alloca float*
+    71	  store float* %vars, float** %op0
+    72	  %op1 = alloca float*
+    73	  store float* %equ, float** %op1
+    74	  %op2 = alloca i32
+    75	  store i32 %var, i32* %op2
+    76	  %op3 = alloca i32
+    77	  %op4 = alloca i32
+    78	  %op5 = alloca i32
+    79	  %op6 = alloca i32
+    80	  %op7 = alloca i32
+    81	  %op8 = alloca i32
+    82	  %op9 = alloca float
+    83	  %op10 = load i32, i32* %op2
+    84	  %op11 = add i32 %op10, 1
+    85	  store i32 %op11, i32* %op6
+    86	  store i32 0, i32* %op3
+    87	  br label %label_while_cond
+    88	label_while_cond:                                                ; preds = %label_entry, %label19
+    89	  %op12 = load i32, i32* %op3
+    90	  %op13 = load i32, i32* %op2
+    91	  %op14 = icmp slt i32 %op12, %op13
+    92	  %op15 = zext i1 %op14 to i32
+    93	  %op16 = icmp ne i32 %op15, 0
+    94	  br i1 %op16, label %label_while_loop, label %label_while_after
+    95	label_while_loop:                                                ; preds = %label_while_cond
+    96	  %op17 = load i32, i32* %op3
+    97	  %op18 = icmp sge i32 %op17, 0
+    98	  br i1 %op18, label %label19, label %label25
+    99	label_while_after:                                                ; preds = %label_while_cond
+   100	  store i32 0, i32* %op8
+   101	  store i32 0, i32* %op5
+   102	  br label %label_while_cond
+   103	label19:                                                ; preds = %label_while_loop, %label25
+   104	  %op20 = load float*, float** %op0
+   105	  %op21 = getelementptr float, float* %op20, i32 %op17
+   106	  %op22 = sitofp i32 0 to float
+   107	  store float %op22, float* %op21
+   108	  %op23 = load i32, i32* %op3
+   109	  %op24 = add i32 %op23, 1
+   110	  store i32 %op24, i32* %op3
+   111	  br label %label_while_cond
+   112	label25:                                                ; preds = %label_while_loop
+   113	  call void @neg_idx_except()
+   114	  br label %label19
+   115	label_while_cond:                                                ; preds = %label_while_after, %label_contBB
+   116	  %op26 = load i32, i32* %op5
+   117	  %op27 = load i32, i32* %op2
+   118	  %op28 = icmp slt i32 %op26, %op27
+   119	  %op29 = zext i1 %op28 to i32
+   120	  %op30 = icmp ne i32 %op29, 0
+   121	  br i1 %op30, label %label_while_loop, label %label_while_after
+   122	label_while_loop:                                                ; preds = %label_while_cond
+   123	  %op31 = load i32, i32* %op5
+   124	  store i32 %op31, i32* %op7
+   125	  %op32 = load i32, i32* %op5
+   126	  %op33 = add i32 %op32, 1
+   127	  store i32 %op33, i32* %op3
+   128	  br label %label_while_cond
+   129	label_while_after:                                                ; preds = %label_while_cond
+   130	  %op34 = load i32, i32* %op2
+   131	  %op35 = sub i32 %op34, 1
+   132	  store i32 %op35, i32* %op3
+   133	  br label %label_while_cond
+   134	label_while_cond:                                                ; preds = %label_while_loop, %label_contBB
+   135	  %op36 = load i32, i32* %op3
+   136	  %op37 = load i32, i32* %op2
+   137	  %op38 = icmp slt i32 %op36, %op37
+   138	  %op39 = zext i1 %op38 to i32
+   139	  %op40 = icmp ne i32 %op39, 0
+   140	  br i1 %op40, label %label_while_loop, label %label_while_after
+   141	label_while_loop:                                                ; preds = %label_while_cond
+   142	  %op41 = load float*, float** %op1
+   143	  %op42 = load i32, i32* %op3
+   144	  %op43 = load i32, i32* %op8
+   145	  %op44 = load i32, i32* %op6
+   146	  %op45 = call float @get(float* %op41, i32 %op42, i32 %op43, i32 %op44)
+   147	  %op46 = call float @abs(float %op45)
+   148	  %op47 = load float*, float** %op1
+   149	  %op48 = load i32, i32* %op7
+   150	  %op49 = load i32, i32* %op8
+   151	  %op50 = load i32, i32* %op6
+   152	  %op51 = call float @get(float* %op47, i32 %op48, i32 %op49, i32 %op50)
+   153	  %op52 = call float @abs(float %op51)
+   154	  %op53 = fcmp ugt float %op46, %op52
+   155	  %op54 = zext i1 %op53 to i32
+   156	  %op55 = icmp ne i32 %op54, 0
+   157	  br i1 %op55, label %label_trueBB, label %label_contBB
+   158	label_while_after:                                                ; preds = %label_while_cond
+   159	  %op56 = load i32, i32* %op7
+   160	  %op57 = load i32, i32* %op5
+   161	  %op58 = icmp ne i32 %op56, %op57
+   162	  %op59 = zext i1 %op58 to i32
+   163	  %op60 = icmp ne i32 %op59, 0
+   164	  br i1 %op60, label %label_trueBB, label %label_contBB
+   165	label_trueBB:                                                ; preds = %label_while_loop
+   166	  %op61 = load i32, i32* %op3
+   167	  store i32 %op61, i32* %op7
+   168	  br label %label_contBB
+   169	label_contBB:                                                ; preds = %label_while_loop, %label_trueBB
+   170	  %op62 = load i32, i32* %op3
+   171	  %op63 = add i32 %op62, 1
+   172	  store i32 %op63, i32* %op3
+   173	  br label %label_while_cond
+   174	label_trueBB:                                                ; preds = %label_while_after
+   175	  %op64 = load i32, i32* %op5
+   176	  store i32 %op64, i32* %op4
+   177	  br label %label_while_cond
+   178	label_contBB:                                                ; preds = %label_while_after, %label_while_after
+   179	  %op65 = load float*, float** %op1
+   180	  %op66 = load i32, i32* %op5
+   181	  %op67 = load i32, i32* %op8
+   182	  %op68 = load i32, i32* %op6
+   183	  %op69 = call float @get(float* %op65, i32 %op66, i32 %op67, i32 %op68)
+   184	  %op70 = call float @isZero(float %op69)
+   185	  %op71 = fcmp une float %op70, 0x0
+   186	  br i1 %op71, label %label_trueBB, label %label_falseBB
+   187	label_while_cond:                                                ; preds = %label_trueBB, %label104
+   188	  %op72 = load i32, i32* %op4
+   189	  %op73 = load i32, i32* %op6
+   190	  %op74 = icmp slt i32 %op72, %op73
+   191	  %op75 = zext i1 %op74 to i32
+   192	  %op76 = icmp ne i32 %op75, 0
+   193	  br i1 %op76, label %label_while_loop, label %label_while_after
+   194	label_while_loop:                                                ; preds = %label_while_cond
+   195	  %op77 = load float*, float** %op1
+   196	  %op78 = load i32, i32* %op5
+   197	  %op79 = load i32, i32* %op4
+   198	  %op80 = load i32, i32* %op6
+   199	  %op81 = call float @get(float* %op77, i32 %op78, i32 %op79, i32 %op80)
+   200	  store float %op81, float* %op9
+   201	  %op82 = load float*, float** %op1
+   202	  %op83 = load i32, i32* %op7
+   203	  %op84 = load i32, i32* %op4
+   204	  %op85 = load i32, i32* %op6
+   205	  %op86 = call float @get(float* %op82, i32 %op83, i32 %op84, i32 %op85)
+   206	  %op87 = load i32, i32* %op5
+   207	  %op88 = load i32, i32* %op6
+   208	  %op89 = mul i32 %op87, %op88
+   209	  %op90 = load i32, i32* %op4
+   210	  %op91 = add i32 %op89, %op90
+   211	  %op92 = icmp sge i32 %op91, 0
+   212	  br i1 %op92, label %label93, label %label103
+   213	label_while_after:                                                ; preds = %label_while_cond
+   214	  br label %label_contBB
+   215	label93:                                                ; preds = %label_while_loop, %label103
+   216	  %op94 = load float*, float** %op1
+   217	  %op95 = getelementptr float, float* %op94, i32 %op91
+   218	  store float %op86, float* %op95
+   219	  %op96 = load float, float* %op9
+   220	  %op97 = load i32, i32* %op7
+   221	  %op98 = load i32, i32* %op6
+   222	  %op99 = mul i32 %op97, %op98
+   223	  %op100 = load i32, i32* %op4
+   224	  %op101 = add i32 %op99, %op100
+   225	  %op102 = icmp sge i32 %op101, 0
+   226	  br i1 %op102, label %label104, label %label109
+   227	label103:                                                ; preds = %label_while_loop
+   228	  call void @neg_idx_except()
+   229	  br label %label93
+   230	label104:                                                ; preds = %label93, %label109
+   231	  %op105 = load float*, float** %op1
+   232	  %op106 = getelementptr float, float* %op105, i32 %op101
+   233	  store float %op96, float* %op106
+   234	  %op107 = load i32, i32* %op4
+   235	  %op108 = add i32 %op107, 1
+   236	  store i32 %op108, i32* %op4
+   237	  br label %label_while_cond
+   238	label109:                                                ; preds = %label93
+   239	  call void @neg_idx_except()
+   240	  br label %label104
+   241	label_trueBB:                                                ; preds = %label_contBB
+   242	  %op110 = load i32, i32* %op5
+   243	  %op111 = sub i32 %op110, 1
+   244	  store i32 %op111, i32* %op5
+   245	  br label %label_contBB
+   246	label_contBB:                                                ; preds = %label_trueBB, %label_while_after
+   247	  %op112 = load i32, i32* %op5
+   248	  %op113 = add i32 %op112, 1
+   249	  store i32 %op113, i32* %op5
+   250	  %op114 = load i32, i32* %op8
+   251	  %op115 = add i32 %op114, 1
+   252	  store i32 %op115, i32* %op8
+   253	  br label %label_while_cond
+   254	label_falseBB:                                                ; preds = %label_contBB
+   255	  %op116 = load i32, i32* %op5
+   256	  %op117 = add i32 %op116, 1
+   257	  store i32 %op117, i32* %op3
+   258	  br label %label_while_cond
+   259	label_while_cond:                                                ; preds = %label_falseBB, %label_contBB
+   260	  %op118 = load i32, i32* %op3
+   261	  %op119 = load i32, i32* %op2
+   262	  %op120 = icmp slt i32 %op118, %op119
+   263	  %op121 = zext i1 %op120 to i32
+   264	  %op122 = icmp ne i32 %op121, 0
+   265	  br i1 %op122, label %label_while_loop, label %label_while_after
+   266	label_while_loop:                                                ; preds = %label_while_cond
+   267	  %op123 = load float*, float** %op1
+   268	  %op124 = load i32, i32* %op3
+   269	  %op125 = load i32, i32* %op8
+   270	  %op126 = load i32, i32* %op6
+   271	  %op127 = call float @get(float* %op123, i32 %op124, i32 %op125, i32 %op126)
+   272	  %op128 = call float @isZero(float %op127)
+   273	  %op129 = sitofp i32 1 to float
+   274	  %op130 = fsub float %op129, %op128
+   275	  %op131 = fcmp une float %op130, 0x0
+   276	  br i1 %op131, label %label_trueBB, label %label_contBB
+   277	label_while_after:                                                ; preds = %label_while_cond
+   278	  br label %label_contBB
+   279	label_trueBB:                                                ; preds = %label_while_loop
+   280	  %op132 = load float*, float** %op1
+   281	  %op133 = load i32, i32* %op3
+   282	  %op134 = load i32, i32* %op8
+   283	  %op135 = load i32, i32* %op6
+   284	  %op136 = call float @get(float* %op132, i32 %op133, i32 %op134, i32 %op135)
+   285	  %op137 = load float*, float** %op1
+   286	  %op138 = load i32, i32* %op5
+   287	  %op139 = load i32, i32* %op8
+   288	  %op140 = load i32, i32* %op6
+   289	  %op141 = call float @get(float* %op137, i32 %op138, i32 %op139, i32 %op140)
+   290	  %op142 = fdiv float %op136, %op141
+   291	  store float %op142, float* %op9
+   292	  %op143 = load i32, i32* %op8
+   293	  store i32 %op143, i32* %op4
+   294	  br label %label_while_cond
+   295	label_contBB:                                                ; preds = %label_while_loop, %label_while_after
+   296	  %op144 = load i32, i32* %op3
+   297	  %op145 = add i32 %op144, 1
+   298	  store i32 %op145, i32* %op3
+   299	  br label %label_while_cond
+   300	label_while_cond:                                                ; preds = %label_trueBB, %label176
+   301	  %op146 = load i32, i32* %op4
+   302	  %op147 = load i32, i32* %op6
+   303	  %op148 = icmp slt i32 %op146, %op147
+   304	  %op149 = zext i1 %op148 to i32
+   305	  %op150 = icmp ne i32 %op149, 0
+   306	  br i1 %op150, label %label_while_loop, label %label_while_after
+   307	label_while_loop:                                                ; preds = %label_while_cond
+   308	  %op151 = load i32, i32* %op3
+   309	  %op152 = load i32, i32* %op6
+   310	  %op153 = mul i32 %op151, %op152
+   311	  %op154 = load i32, i32* %op4
+   312	  %op155 = add i32 %op153, %op154
+   313	  %op156 = icmp sge i32 %op155, 0
+   314	  br i1 %op156, label %label157, label %label175
+   315	label_while_after:                                                ; preds = %label_while_cond
+   316	  br label %label_contBB
+   317	label157:                                                ; preds = %label_while_loop, %label175
+   318	  %op158 = load float*, float** %op1
+   319	  %op159 = getelementptr float, float* %op158, i32 %op155
+   320	  %op160 = load float, float* %op159
+   321	  %op161 = load float*, float** %op1
+   322	  %op162 = load i32, i32* %op5
+   323	  %op163 = load i32, i32* %op4
+   324	  %op164 = load i32, i32* %op6
+   325	  %op165 = call float @get(float* %op161, i32 %op162, i32 %op163, i32 %op164)
+   326	  %op166 = load float, float* %op9
+   327	  %op167 = fmul float %op165, %op166
+   328	  %op168 = fsub float %op160, %op167
+   329	  %op169 = load i32, i32* %op3
+   330	  %op170 = load i32, i32* %op6
+   331	  %op171 = mul i32 %op169, %op170
+   332	  %op172 = load i32, i32* %op4
+   333	  %op173 = add i32 %op171, %op172
+   334	  %op174 = icmp sge i32 %op173, 0
+   335	  br i1 %op174, label %label176, label %label181
+   336	label175:                                                ; preds = %label_while_loop
+   337	  call void @neg_idx_except()
+   338	  br label %label157
+   339	label176:                                                ; preds = %label157, %label181
+   340	  %op177 = load float*, float** %op1
+   341	  %op178 = getelementptr float, float* %op177, i32 %op173
+   342	  store float %op168, float* %op178
+   343	  %op179 = load i32, i32* %op4
+   344	  %op180 = add i32 %op179, 1
+   345	  store i32 %op180, i32* %op4
+   346	  br label %label_while_cond
+   347	label181:                                                ; preds = %label157
+   348	  call void @neg_idx_except()
+   349	  br label %label176
+   350	label_while_cond:                                                ; preds = %label_while_after, %label233
+   351	  %op182 = load i32, i32* %op3
+   352	  %op183 = icmp sge i32 %op182, 0
+   353	  %op184 = zext i1 %op183 to i32
+   354	  %op185 = icmp ne i32 %op184, 0
+   355	  br i1 %op185, label %label_while_loop, label %label_while_after
+   356	label_while_loop:                                                ; preds = %label_while_cond
+   357	  %op186 = load float*, float** %op1
+   358	  %op187 = load i32, i32* %op3
+   359	  %op188 = load i32, i32* %op2
+   360	  %op189 = load i32, i32* %op6
+   361	  %op190 = call float @get(float* %op186, i32 %op187, i32 %op188, i32 %op189)
+   362	  store float %op190, float* %op9
+   363	  %op191 = load i32, i32* %op3
+   364	  %op192 = add i32 %op191, 1
+   365	  store i32 %op192, i32* %op4
+   366	  br label %label_while_cond
+   367	label_while_after:                                                ; preds = %label_while_cond
+   368	  ret i32 0
+   369	label_while_cond:                                                ; preds = %label_while_loop, %label_contBB
+   370	  %op193 = load i32, i32* %op4
+   371	  %op194 = load i32, i32* %op2
+   372	  %op195 = icmp slt i32 %op193, %op194
+   373	  %op196 = zext i1 %op195 to i32
+   374	  %op197 = icmp ne i32 %op196, 0
+   375	  br i1 %op197, label %label_while_loop, label %label_while_after
+   376	label_while_loop:                                                ; preds = %label_while_cond
+   377	  %op198 = load float*, float** %op1
+   378	  %op199 = load i32, i32* %op3
+   379	  %op200 = load i32, i32* %op4
+   380	  %op201 = load i32, i32* %op6
+   381	  %op202 = call float @get(float* %op198, i32 %op199, i32 %op200, i32 %op201)
+   382	  %op203 = call float @isZero(float %op202)
+   383	  %op204 = sitofp i32 1 to float
+   384	  %op205 = fsub float %op204, %op203
+   385	  %op206 = fcmp une float %op205, 0x0
+   386	  br i1 %op206, label %label_trueBB, label %label_contBB
+   387	label_while_after:                                                ; preds = %label_while_cond
+   388	  %op207 = load float, float* %op9
+   389	  %op208 = load float*, float** %op1
+   390	  %op209 = load i32, i32* %op3
+   391	  %op210 = load i32, i32* %op3
+   392	  %op211 = load i32, i32* %op6
+   393	  %op212 = call float @get(float* %op208, i32 %op209, i32 %op210, i32 %op211)
+   394	  %op213 = fdiv float %op207, %op212
+   395	  %op214 = load i32, i32* %op3
+   396	  %op215 = icmp sge i32 %op214, 0
+   397	  br i1 %op215, label %label233, label %label238
+   398	label_trueBB:                                                ; preds = %label_while_loop
+   399	  %op216 = load float, float* %op9
+   400	  %op217 = load float*, float** %op1
+   401	  %op218 = load i32, i32* %op3
+   402	  %op219 = load i32, i32* %op4
+   403	  %op220 = load i32, i32* %op6
+   404	  %op221 = call float @get(float* %op217, i32 %op218, i32 %op219, i32 %op220)
+   405	  %op222 = load i32, i32* %op4
+   406	  %op223 = icmp sge i32 %op222, 0
+   407	  br i1 %op223, label %label226, label %label232
+   408	label_contBB:                                                ; preds = %label_while_loop, %label226
+   409	  %op224 = load i32, i32* %op4
+   410	  %op225 = add i32 %op224, 1
+   411	  store i32 %op225, i32* %op4
+   412	  br label %label_while_cond
+   413	label226:                                                ; preds = %label_trueBB, %label232
+   414	  %op227 = load float*, float** %op0
+   415	  %op228 = getelementptr float, float* %op227, i32 %op222
+   416	  %op229 = load float, float* %op228
+   417	  %op230 = fmul float %op221, %op229
+   418	  %op231 = fsub float %op216, %op230
+   419	  store float %op231, float* %op9
+   420	  br label %label_contBB
+   421	label232:                                                ; preds = %label_trueBB
+   422	  call void @neg_idx_except()
+   423	  br label %label226
+   424	label233:                                                ; preds = %label_while_after, %label238
+   425	  %op234 = load float*, float** %op0
+   426	  %op235 = getelementptr float, float* %op234, i32 %op214
+   427	  store float %op213, float* %op235
+   428	  %op236 = load i32, i32* %op3
+   429	  %op237 = sub i32 %op236, 1
+   430	  store i32 %op237, i32* %op3
+   431	  br label %label_while_cond
+   432	label238:                                                ; preds = %label_while_after
+   433	  call void @neg_idx_except()
+   434	  br label %label233
+   435	}
+   436	define void @main() {
+   437	label_entry:
+   438	  %op0 = alloca i32
+   439	  %op1 = alloca [3 x float]
+   440	  %op2 = alloca [12 x float]
+   441	  %op3 = icmp sge i32 0, 0
+   442	  br i1 %op3, label %label4, label %label8
+   443	label4:                                                ; preds = %label_entry, %label8
+   444	  %op5 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 0
+   445	  %op6 = sitofp i32 1 to float
+   446	  store float %op6, float* %op5
+   447	  %op7 = icmp sge i32 1, 0
+   448	  br i1 %op7, label %label9, label %label13
+   449	label8:                                                ; preds = %label_entry
+   450	  call void @neg_idx_except()
+   451	  br label %label4
+   452	label9:                                                ; preds = %label4, %label13
+   453	  %op10 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 1
+   454	  %op11 = sitofp i32 2 to float
+   455	  store float %op11, float* %op10
+   456	  %op12 = icmp sge i32 2, 0
+   457	  br i1 %op12, label %label14, label %label18
+   458	label13:                                                ; preds = %label4
+   459	  call void @neg_idx_except()
+   460	  br label %label9
+   461	label14:                                                ; preds = %label9, %label18
+   462	  %op15 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 2
+   463	  %op16 = sitofp i32 1 to float
+   464	  store float %op16, float* %op15
+   465	  %op17 = icmp sge i32 3, 0
+   466	  br i1 %op17, label %label19, label %label25
+   467	label18:                                                ; preds = %label9
+   468	  call void @neg_idx_except()
+   469	  br label %label14
+   470	label19:                                                ; preds = %label14, %label25
+   471	  %op20 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 3
+   472	  %op21 = sitofp i32 1 to float
+   473	  store float %op21, float* %op20
+   474	  %op22 = mul i32 1, 4
+   475	  %op23 = add i32 %op22, 0
+   476	  %op24 = icmp sge i32 %op23, 0
+   477	  br i1 %op24, label %label26, label %label32
+   478	label25:                                                ; preds = %label14
+   479	  call void @neg_idx_except()
+   480	  br label %label19
+   481	label26:                                                ; preds = %label19, %label32
+   482	  %op27 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 %op23
+   483	  %op28 = sitofp i32 2 to float
+   484	  store float %op28, float* %op27
+   485	  %op29 = mul i32 1, 4
+   486	  %op30 = add i32 %op29, 1
+   487	  %op31 = icmp sge i32 %op30, 0
+   488	  br i1 %op31, label %label33, label %label39
+   489	label32:                                                ; preds = %label19
+   490	  call void @neg_idx_except()
+   491	  br label %label26
+   492	label33:                                                ; preds = %label26, %label39
+   493	  %op34 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 %op30
+   494	  %op35 = sitofp i32 3 to float
+   495	  store float %op35, float* %op34
+   496	  %op36 = mul i32 1, 4
+   497	  %op37 = add i32 %op36, 2
+   498	  %op38 = icmp sge i32 %op37, 0
+   499	  br i1 %op38, label %label40, label %label46
+   500	label39:                                                ; preds = %label26
+   501	  call void @neg_idx_except()
+   502	  br label %label33
+   503	label40:                                                ; preds = %label33, %label46
+   504	  %op41 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 %op37
+   505	  %op42 = sitofp i32 4 to float
+   506	  store float %op42, float* %op41
+   507	  %op43 = mul i32 1, 4
+   508	  %op44 = add i32 %op43, 3
+   509	  %op45 = icmp sge i32 %op44, 0
+   510	  br i1 %op45, label %label47, label %label53
+   511	label46:                                                ; preds = %label33
+   512	  call void @neg_idx_except()
+   513	  br label %label40
+   514	label47:                                                ; preds = %label40, %label53
+   515	  %op48 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 %op44
+   516	  %op49 = sitofp i32 3 to float
+   517	  store float %op49, float* %op48
+   518	  %op50 = mul i32 2, 4
+   519	  %op51 = add i32 %op50, 0
+   520	  %op52 = icmp sge i32 %op51, 0
+   521	  br i1 %op52, label %label54, label %label60
+   522	label53:                                                ; preds = %label40
+   523	  call void @neg_idx_except()
+   524	  br label %label47
+   525	label54:                                                ; preds = %label47, %label60
+   526	  %op55 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 %op51
+   527	  %op56 = sitofp i32 1 to float
+   528	  store float %op56, float* %op55
+   529	  %op57 = mul i32 2, 4
+   530	  %op58 = add i32 %op57, 1
+   531	  %op59 = icmp sge i32 %op58, 0
+   532	  br i1 %op59, label %label61, label %label68
+   533	label60:                                                ; preds = %label47
+   534	  call void @neg_idx_except()
+   535	  br label %label54
+   536	label61:                                                ; preds = %label54, %label68
+   537	  %op62 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 %op58
+   538	  %op63 = sitofp i32 1 to float
+   539	  store float %op63, float* %op62
+   540	  %op64 = sub i32 0, 2
+   541	  %op65 = mul i32 2, 4
+   542	  %op66 = add i32 %op65, 2
+   543	  %op67 = icmp sge i32 %op66, 0
+   544	  br i1 %op67, label %label69, label %label75
+   545	label68:                                                ; preds = %label54
+   546	  call void @neg_idx_except()
+   547	  br label %label61
+   548	label69:                                                ; preds = %label61, %label75
+   549	  %op70 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 %op66
+   550	  %op71 = sitofp i32 %op64 to float
+   551	  store float %op71, float* %op70
+   552	  %op72 = mul i32 2, 4
+   553	  %op73 = add i32 %op72, 3
+   554	  %op74 = icmp sge i32 %op73, 0
+   555	  br i1 %op74, label %label76, label %label82
+   556	label75:                                                ; preds = %label61
+   557	  call void @neg_idx_except()
+   558	  br label %label69
+   559	label76:                                                ; preds = %label69, %label82
+   560	  %op77 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 %op73
+   561	  %op78 = sitofp i32 0 to float
+   562	  store float %op78, float* %op77
+   563	  %op79 = getelementptr [3 x float], [3 x float]* %op1, i32 0, i32 0
+   564	  %op80 = getelementptr [12 x float], [12 x float]* %op2, i32 0, i32 0
+   565	  %op81 = call i32 @gauss(float* %op79, float* %op80, i32 3)
+   566	  store i32 0, i32* %op0
+   567	  br label %label_while_cond
+   568	label82:                                                ; preds = %label69
+   569	  call void @neg_idx_except()
+   570	  br label %label76
+   571	label_while_cond:                                                ; preds = %label76, %label89
+   572	  %op83 = load i32, i32* %op0
+   573	  %op84 = icmp slt i32 %op83, 3
+   574	  %op85 = zext i1 %op84 to i32
+   575	  %op86 = icmp ne i32 %op85, 0
+   576	  br i1 %op86, label %label_while_loop, label %label_while_after
+   577	label_while_loop:                                                ; preds = %label_while_cond
+   578	  %op87 = load i32, i32* %op0
+   579	  %op88 = icmp sge i32 %op87, 0
+   580	  br i1 %op88, label %label89, label %label94
+   581	label_while_after:                                                ; preds = %label_while_cond
+   582	  ret void
+   583	label89:                                                ; preds = %label_while_loop, %label94
+   584	  %op90 = getelementptr [3 x float], [3 x float]* %op1, i32 0, i32 %op87
+   585	  %op91 = load float, float* %op90
+   586	  call void @outputFloat(float %op91)
+   587	  %op92 = load i32, i32* %op0
+   588	  %op93 = add i32 %op92, 1
+   589	  store i32 %op93, i32* %op0
+   590	  br label %label_while_cond
+   591	label94:                                                ; preds = %label_while_loop
+   592	  call void @neg_idx_except()
+   593	  br label %label89
+   594	}
+------------------------------------------------------------------------
+
+
