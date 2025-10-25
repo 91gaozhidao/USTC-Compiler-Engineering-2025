@@ -115,9 +115,7 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     }
     node.compound_stmt->accept(*this);
     
-    // ** FINAL FIX - Part 1 **
-    // The builder might be pointing to a terminated block.
-    // We only add a return if the current block is valid AND not terminated.
+
     if (builder->get_insert_block() && !builder->get_insert_block()->is_terminated())
     {
         if (context.func->get_return_type()->is_void_type())
@@ -132,7 +130,6 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
 }
 
 Value* CminusfBuilder::visit(ASTParam &node) {
-    // This is the "hidden" TODO #0.
     Type* param_type;
     if (node.type == TYPE_INT) {
         param_type = node.isarray ? INT32PTR_T : INT32_T;
@@ -177,7 +174,6 @@ Value* CminusfBuilder::visit(ASTExpressionStmt &node) {
 Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     auto *ret_val = node.expression->accept(*this);
     
-    // ** THE FINAL FIX - Part 3: Generate unique labels **
     auto trueBB = BasicBlock::create(module.get(), "trueBB_" + std::to_string(label_count++), context.func);
     BasicBlock *falseBB;
     auto contBB = BasicBlock::create(module.get(), "contBB_" + std::to_string(label_count++), context.func);
@@ -221,7 +217,6 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
 
 Value* CminusfBuilder::visit(ASTIterationStmt &node) {
     // TODO #3
-    // ** THE FINAL FIX - Part 4: Generate unique labels **
     auto condBB = BasicBlock::create(module.get(), "while_cond_" + std::to_string(label_count++), context.func);
     auto loopBB = BasicBlock::create(module.get(), "while_loop_" + std::to_string(label_count++), context.func);
     auto afterBB = BasicBlock::create(module.get(), "while_after_" + std::to_string(label_count++), context.func);
