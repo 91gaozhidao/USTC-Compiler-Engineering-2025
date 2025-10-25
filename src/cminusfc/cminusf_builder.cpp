@@ -209,12 +209,14 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     // If contBB has no predecessors, it means both if and else branches
     // ended with a `return`. This block is unreachable.
     if (contBB->get_pre_basic_blocks().empty()) {
-        // We can just remove it
+        // We can just remove it from the function
         contBB->erase_from_parent();
         // And we must ensure the builder is not left pointing to a deleted block.
         // Create a new, safe, unreachable block for it.
-        auto unreachable_bb = BasicBlock::create(module.get(), "unreachable", context.func);
-        builder->set_insert_point(unreachable_bb);
+        if (context.func) {
+            auto unreachable_bb = BasicBlock::create(module.get(), "unreachable", context.func);
+            builder->set_insert_point(unreachable_bb);
+        }
     } else {
         builder->set_insert_point(contBB);
     }
