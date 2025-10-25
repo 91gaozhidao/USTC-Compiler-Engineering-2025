@@ -1,8 +1,8 @@
 #include "cminusf_builder.hpp"
+#include <string> // ** THE FINAL FIX - Part 2: Include <string> for std::to_string **
 
 #define CONST_FP(num) ConstantFP::get((float)num, module.get())
 #define CONST_INT(num) ConstantInt::get(num, module.get())
-
 // types
 Type *VOID_T;
 Type *INT1_T;
@@ -176,9 +176,12 @@ Value* CminusfBuilder::visit(ASTExpressionStmt &node) {
 
 Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     auto *ret_val = node.expression->accept(*this);
-    auto *trueBB = BasicBlock::create(module.get(), "trueBB", context.func);
+    
+    // ** THE FINAL FIX - Part 3: Generate unique labels **
+    auto trueBB = BasicBlock::create(module.get(), "trueBB_" + std::to_string(label_count++), context.func);
     BasicBlock *falseBB;
-    auto *contBB = BasicBlock::create(module.get(), "contBB", context.func);
+    auto contBB = BasicBlock::create(module.get(), "contBB_" + std::to_string(label_count++), context.func);
+
     Value *cond_val;
     if (ret_val->get_type()->is_integer_type()) {
         cond_val = builder->create_icmp_ne(ret_val, CONST_INT(0));
@@ -189,7 +192,7 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     if (node.else_statement == nullptr) {
         falseBB = contBB;
     } else {
-        falseBB = BasicBlock::create(module.get(), "falseBB", context.func);
+        falseBB = BasicBlock::create(module.get(), "falseBB_" + std::to_string(label_count++), context.func);
     }
     builder->create_cond_br(cond_val, trueBB, falseBB);
     
@@ -207,12 +210,8 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
         }
     }
 
-    // ** FINAL FIX - Part 2 (The Core) **
     if (contBB->get_pre_basic_blocks().empty()) {
         contBB->erase_from_parent();
-        // The builder is now likely pointing to a terminated block.
-        // We don't need to move it, because the calling function (ASTFunDeclaration)
-        // will now correctly check if the block is terminated before adding a return.
     } else {
         builder->set_insert_point(contBB);
     }
@@ -222,9 +221,10 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
 
 Value* CminusfBuilder::visit(ASTIterationStmt &node) {
     // TODO #3
-    auto *condBB = BasicBlock::create(module.get(), "while_cond", context.func);
-    auto *loopBB = BasicBlock::create(module.get(), "while_loop", context.func);
-    auto *afterBB = BasicBlock::create(module.get(), "while_after", context.func);
+    // ** THE FINAL FIX - Part 4: Generate unique labels **
+    auto condBB = BasicBlock::create(module.get(), "while_cond_" + std::to_string(label_count++), context.func);
+    auto loopBB = BasicBlock::create(module.get(), "while_loop_" + std::to_string(label_count++), context.func);
+    auto afterBB = BasicBlock::create(module.get(), "while_after_" + std::to_string(label_count++), context.func);
 
     if (builder->get_insert_block() && !builder->get_insert_block()->is_terminated()) {
         builder->create_br(condBB);

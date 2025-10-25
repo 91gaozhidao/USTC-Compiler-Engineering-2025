@@ -100,7 +100,7 @@ class CminusfBuilder : public ASTVisitor {
     virtual Value *visit(ASTVar &) override final;
     virtual Value *visit(ASTTerm &) override final;
     virtual Value *visit(ASTCall &) override final;
-
+    int label_count = 0;
     std::unique_ptr<IRBuilder> builder;
     Scope scope;
     std::unique_ptr<Module> module;
