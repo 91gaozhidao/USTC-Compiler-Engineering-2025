@@ -96,9 +96,9 @@ lv2 = {
 
 # 11
 lv3 = {
-    "complex1": (4, True),
+    "complex1": (4, False),
     "complex2": (3, True),
-    "complex3": (4, False),
+    "complex3": (4, True),
 }
 
 suite = [
@@ -121,7 +121,7 @@ def eval():
             elif arg == "const-prop":
                 opt_flags.append("-const-prop")
 
-    f = open("eval_result", 'w')
+    f = open("eval_result_dce", 'w')
     EXE_PATH = "../../../build/cminusfc"
     TEST_BASE_PATH = "./testcases/"
     ANSWER_BASE_PATH = "./answers/"
