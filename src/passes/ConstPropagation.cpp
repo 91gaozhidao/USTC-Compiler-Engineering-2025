@@ -64,28 +64,29 @@ ConstantFP *ConstFolder::compute(Instruction::OpID op, ConstantFP *value1,
         return ConstantFP::get(c_value1 / c_value2, module_);
         break;
     case Instruction::feq:
-        return ConstantFP::get(c_value1 == c_value2, module_);
+        return (ConstantFP *)ConstantInt::get(c_value1 == c_value2, module_);
         break;
     case Instruction::fne:
-        return ConstantFP::get(c_value1 != c_value2, module_);
+        return (ConstantFP *)ConstantInt::get(c_value1 != c_value2, module_);
         break;
     case Instruction::fgt:
-        return ConstantFP::get(c_value1 > c_value2, module_);
+        return (ConstantFP *)ConstantInt::get(c_value1 > c_value2, module_);
         break;
     case Instruction::fge:
-        return ConstantFP::get(c_value1 >= c_value2, module_);
+        return (ConstantFP *)ConstantInt::get(c_value1 >= c_value2, module_);
         break;
     case Instruction::flt:
-        return ConstantFP::get(c_value1 < c_value2, module_);
+        return (ConstantFP *)ConstantInt::get(c_value1 < c_value2, module_);
         break;
     case Instruction::fle:
-        return ConstantFP::get(c_value1 <= c_value2, module_);
+        return (ConstantFP *)ConstantInt::get(c_value1 <= c_value2, module_);
         break;
     default:
         return nullptr;
         break;
     }
 }
+
 ConstantFP *ConstFolder::compute(Instruction::OpID op, ConstantInt *value1) {
     int c_value1 = value1->get_value();
 

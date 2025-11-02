@@ -32,20 +32,20 @@ num_ge_int:	Success
 num_gt_int:	Success
 num_eq_int:	Success
 num_neq_int:	Success
-num_le_float:	Fail
-num_lt_float:	Fail
-num_ge_float:	Fail
-num_gt_float:	Fail
-num_eq_float:	Fail
-num_neq_float:	Fail
-num_le_mixed:	Fail
-num_lt_mixed:	Fail
-num_ge_mixed:	Fail
-num_gt_mixed:	Fail
-num_eq_mixed:	Fail
-num_neq_mixed:	Fail
-num_comp2:	Fail
-points of lv0_2 is: 10
+num_le_float:	Success
+num_lt_float:	Success
+num_ge_float:	Success
+num_gt_float:	Success
+num_eq_float:	Success
+num_neq_float:	Success
+num_le_mixed:	Success
+num_lt_mixed:	Success
+num_ge_mixed:	Success
+num_gt_mixed:	Success
+num_eq_mixed:	Success
+num_neq_mixed:	Success
+num_comp2:	Success
+points of lv0_2 is: 18
 ===========lv0_2 END========
 
 ===========lv1 START========
@@ -99,4 +99,4 @@ complex3:	Fail
 points of lv3 is: 0
 ===========lv3 END========
 
-total points: 78
+total points: 86
