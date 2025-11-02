@@ -1,0 +1,11 @@
+int main(void) {
+    int a;
+    int b;
+    a = 5 + 3;
+    b = a * 2;
+    if (b > 10) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
