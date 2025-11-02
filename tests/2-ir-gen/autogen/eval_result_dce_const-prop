@@ -68,12 +68,12 @@ negidx_voidfuncall:	Success
 selection1:	Success
 selection2:	Success
 selection3:	Success
-iteration1:	Fail
-iteration2:	Fail
+iteration1:	Success
+iteration2:	Success
 scope:	Success
 transfer_float_to_int:	Success
 transfer_int_to_float:	Success
-points of lv1 is: 28
+points of lv1 is: 31
 ===========lv1 END========
 
 ===========lv2 START========
@@ -93,10 +93,10 @@ points of lv2 is: 23
 ===========lv2 END========
 
 ===========lv3 START========
-complex1:	Fail
-complex2:	Fail
-complex3:	Fail
-points of lv3 is: 0
+complex1:	Success
+complex2:	Success
+complex3:	Success
+points of lv3 is: 11
 ===========lv3 END========
 
-total points: 86
+total points: 100

@@ -88,7 +88,12 @@ void Mem2Reg::rename(BasicBlock *bb) {
     // 出的地址空间
     for (auto &instr : bb->get_instructions()) {
         if (instr.is_phi()) {
-            auto l_val = phi_lval.at(static_cast<PhiInst *>(&instr));
+            // 🔧 修改：添加安全检查
+            auto phi_inst = static_cast<PhiInst *>(&instr);
+            if (phi_lval.find(phi_inst) == phi_lval.end()) {
+                continue; // 跳过不在 map 中的 PHI 指令
+            }
+            auto l_val = phi_lval.at(phi_inst);
             var_val_stack[l_val].push_back(&instr);
         }
     }
@@ -121,11 +126,16 @@ void Mem2Reg::rename(BasicBlock *bb) {
     for (auto succ_bb : bb->get_succ_basic_blocks()) {
         for (auto &instr : succ_bb->get_instructions()) {
             if (instr.is_phi()) {
-                auto l_val = phi_lval.at(static_cast<PhiInst *>(&instr));
+                // 🔧 修改：添加安全检查
+                auto phi_inst = static_cast<PhiInst *>(&instr);
+                if (phi_lval.find(phi_inst) == phi_lval.end()) {
+                    continue; // 跳过不在 map 中的 PHI 指令
+                }
+                auto l_val = phi_lval.at(phi_inst);
                 if (var_val_stack.find(l_val) != var_val_stack.end() &&
                     var_val_stack[l_val].size() != 0) {
-                    static_cast<PhiInst *>(&instr)->add_phi_pair_operand(
-                        var_val_stack[l_val].back(), bb);
+                    phi_inst->add_phi_pair_operand(var_val_stack[l_val].back(),
+                                                   bb);
                 }
                 // 对于 phi 参数只有一个前驱定值的情况，将会输出 [ undef, bb ]
                 // 的参数格式
@@ -146,7 +156,12 @@ void Mem2Reg::rename(BasicBlock *bb) {
                 var_val_stack[l_val].pop_back();
             }
         } else if (instr.is_phi()) {
-            auto l_val = phi_lval.at(static_cast<PhiInst *>(&instr));
+            // 🔧 修改：添加安全检查
+            auto phi_inst = static_cast<PhiInst *>(&instr);
+            if (phi_lval.find(phi_inst) == phi_lval.end()) {
+                continue; // 跳过不在 map 中的 PHI 指令
+            }
+            auto l_val = phi_lval.at(phi_inst);
             if (var_val_stack.find(l_val) != var_val_stack.end()) {
                 var_val_stack[l_val].pop_back();
             }
