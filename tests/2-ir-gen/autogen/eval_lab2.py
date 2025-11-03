@@ -121,7 +121,7 @@ def eval():
             elif arg == "const-prop":
                 opt_flags.append("-const-prop")
 
-    f = open("eval_result_dce_const-prop", 'w')
+    f = open("eval_result_dce_const-prop_func-inline", 'w')
     EXE_PATH = "../../../build/cminusfc"
     TEST_BASE_PATH = "./testcases/"
     ANSWER_BASE_PATH = "./answers/"
