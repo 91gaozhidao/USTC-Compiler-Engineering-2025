@@ -106,7 +106,7 @@ void FunctionInline::inline_function(Instruction *call, Function *origin) {
     }
     for (auto bb : bb_list) {
         for (auto &inst : bb->get_instructions()) {
-            for (int i = 0; i < inst.get_num_operand(); i++) {
+            for (unsigned int i = 0; i < inst.get_num_operand(); i++) {
                 if (inst.is_phi()) {
                     ;
                 }
