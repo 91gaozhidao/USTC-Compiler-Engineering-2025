@@ -1,4 +1,4 @@
-Running with optimizations: -dce -const-prop -func-inline
+Running without optimizations
 
 ===========lv0_1 START========
 return:	Success
@@ -62,9 +62,9 @@ innout:	Success
 idx_float:	Success
 negidx_int:	Success
 negidx_float:	Success
-negidx_intfuncall:	Fail
-negidx_floatfuncall:	Fail
-negidx_voidfuncall:	Fail
+negidx_intfuncall:	Success
+negidx_floatfuncall:	Success
+negidx_voidfuncall:	Success
 selection1:	Success
 selection2:	Success
 selection3:	Success
@@ -73,30 +73,30 @@ iteration2:	Success
 scope:	Success
 transfer_float_to_int:	Success
 transfer_int_to_float:	Success
-points of lv1 is: 28
+points of lv1 is: 31
 ===========lv1 END========
 
 ===========lv2 START========
-funcall_chain:	Fail
+funcall_chain:	Success
 assign_chain:	Success
-funcall_var:	Fail
-funcall_int_array:	Fail
-funcall_float_array:	Fail
-funcall_array_array:	Fail
-return_in_middle1:	Fail
-return_in_middle2:	Fail
-funcall_type_mismatch1:	Fail
-funcall_type_mismatch2:	Fail
-return_type_mismatch1:	Fail
-return_type_mismatch2:	Fail
-points of lv2 is: 2
+funcall_var:	Success
+funcall_int_array:	Success
+funcall_float_array:	Success
+funcall_array_array:	Success
+return_in_middle1:	Success
+return_in_middle2:	Success
+funcall_type_mismatch1:	Success
+funcall_type_mismatch2:	Success
+return_type_mismatch1:	Success
+return_type_mismatch2:	Success
+points of lv2 is: 23
 ===========lv2 END========
 
 ===========lv3 START========
-complex1:	Fail
+complex1:	Success
 complex2:	Success
 complex3:	Success
-points of lv3 is: 7
+points of lv3 is: 11
 ===========lv3 END========
 
-total points: 72
+total points: 100
